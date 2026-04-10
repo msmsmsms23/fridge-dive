@@ -11,14 +11,17 @@
     "typecheck": "nuxt typecheck"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "@iconify-json/lucide": "^1.2.101",
     "@iconify-json/simple-icons": "^1.2.77",
-    "@nuxt/ui": "^4.6.1",
+    "@nuxt/ui": "^2.22.3",
+    "@pinia/nuxt": "0.11.3",
+    "bcrypt": "^6.0.0",
     "dotenv": "^17.4.1",
     "drizzle-orm": "^0.45.2",
-    "nuxt": "^4.4.2",
+    "nuxt": "^3.21.2",
     "postgres": "^3.4.9",
-    "tailwindcss": "^4.2.2"
+    "redis": "^5.11.0"
   },
   "devDependencies": {
     "@nuxt/eslint": "^1.15.2",

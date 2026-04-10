@@ -1,9 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: [
-    '@nuxt/eslint',
-    '@nuxt/ui'
-  ],
+  modules: ['@nuxt/eslint', '@nuxt/ui', '@pinia/nuxt'],
 
   devtools: {
     enabled: true
@@ -19,10 +16,37 @@ export default defineNuxtConfig({
 
   eslint: {
     config: {
-      stylistic: {
-        commaDangle: 'never',
-        braceStyle: '1tbs'
-      }
+      stylistic: false
     }
-  }
+  },
+
+  auth: {
+    isEnabled: true,
+    disableServerSideAuth: false,
+    originEnvKey: 'AUTH_ORIGIN',
+    baseURL: 'http://localhost:3000/api/auth',
+    provider: {
+      type: 'local',
+      token: {
+        cookieName: 'session'
+      },
+      endpoints: {
+        signIn: { path: '/login', method: 'post' },
+        signOut: { path: '/logout', method: 'post' },
+        signUp: { path: '/register', method: 'post' },
+        getSession: { path: '/current', method: 'get' },
+      }
+    },
+    sessionRefresh: {
+      enablePeriodically: 1800,
+      enableOnWindowFocus: true,
+    },
+  },
+
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
+  },
 })
