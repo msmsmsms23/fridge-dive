@@ -9,11 +9,14 @@ export const useUserStore = defineStore('user', {
 
   actions: {
     async fetchCurrentUser() {
-      const res = await fetch('/api/auth/current');
-
-      this.user = await res.json();
-
-      this.ready = true;
+      try {
+        const data = await $fetch('/api/auth/current');
+        this.user = data.user || data;
+        console.log("유저 정보 로드 성공:", this.user);
+      } catch (e) {
+        this.user = null;
+        console.log("로그인 상태 아님");
+      }
     },
 
     async logout() {
@@ -25,8 +28,7 @@ export const useUserStore = defineStore('user', {
           this.ready = true;
 
           alert('로그아웃 되었습니다.');
-
-          //window.location.href = '/';
+          window.location.href = '/';
           return true;
         } catch (err) {
           console.error(err);
