@@ -75,11 +75,47 @@ const { uploadImage } = usePhotoUpload(); // Cloudinary 업로드용 컴포저�
 
 const triggerFileInput = () => fileInput.value.click();
 
-const handleFileChange = (e) => {
+const cropImageToSquare = (file) => {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (event) => {
+      const img = new Image();
+      img.src = event.target.result;
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const size = Math.min(img.width, img.height);
+        canvas.width = size;
+        canvas.height = size;
+
+        const ctx = canvas.getContext('2d');
+        // 이미지의 중앙 부분을 계산해서 자르기
+        ctx.drawImage(
+          img,
+          (img.width - size) / 2,
+          (img.height - size) / 2,
+          size,
+          size,
+          0,
+          0,
+          size,
+          size
+        );
+
+        canvas.toBlob((blob) => {
+          resolve(new File([blob], file.name, { type: 'image/jpeg' }));
+        }, 'image/jpeg', 0.9);
+      };
+    };
+  });
+};
+
+const handleFileChange = async (e) => {
   const file = e.target.files[0];
   if (file) {
-    selectedFile.value = file;
-    previewUrl.value = URL.createObjectURL(file);
+    const croppedFile = await cropImageToSquare(file);
+    selectedFile.value = croppedFile;
+    previewUrl.value = URL.createObjectURL(croppedFile);
   }
 };
 

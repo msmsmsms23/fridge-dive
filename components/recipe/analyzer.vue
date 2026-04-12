@@ -10,7 +10,7 @@
     <UTabs :items="tabs" class="w-full">
       <template #text-input>
         <div class="space-y-4 py-4">
-          <UTextarea v-model="rawText" placeholder="레시피를 자유롭게 써주세요..." :rows="8" />
+          <UTextarea v-model="rawText" placeholder="레시피를 자유롭게 써 주세요..." :rows="8" />
           <UButton block size="lg" :loading="loading" :disabled="!rawText" @click="onAnalyzeText">텍스트 분석</UButton>
         </div>
       </template>
@@ -36,7 +36,7 @@ const rawText = ref('');
 const file = ref(null);
 const preview = ref(null);
 
-const tabs = [{ label: '줄글', slot: 'text-input' }, { label: '사진', slot: 'image-input' }];
+const tabs = [{ label: '텍스트', slot: 'text-input' }, { label: '사진', slot: 'image-input' }];
 
 const onFileChange = (e) => {
   file.value = e.target.files[0];

@@ -6,7 +6,6 @@ export const usePhotoUpload = () => {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('upload_preset', uploadPreset);
-    formData.append('transformation', 'c_fill,g_center,w_1000,h_1000,f_auto');
 
     try {
       const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {

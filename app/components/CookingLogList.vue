@@ -15,7 +15,8 @@
       <div
         v-for="log in sortedLogs"
         :key="log.id"
-        class="group relative aspect-square rounded-2xl overflow-hidden cursor-pointer bg-white border border-gray-50 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+        class="group relative rounded-2xl overflow-hidden cursor-pointer bg-white border border-gray-50 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+        style="aspect-ratio: 1 / 1;"
         @click="goToLogDetail(log.id)"
       >
         <img
@@ -26,10 +27,10 @@
 
         <div
           v-else-if="log.memo"
-          class="w-full h-full p-5 flex items-center justify-center text-center bg-orange-50/50"
+          class="w-full h-full p-5 flex items-center justify-center text-center bg-gray-50"
         >
-          <p class="text-xs sm:text-sm font-bold text-orange-700 leading-snug line-clamp-4 italic">
-            "{{ log.memo }}"
+          <p class="text-xs sm:text-sm font-bold leading-snug line-clamp-4 italic">
+            {{ log.memo }}
           </p>
         </div>
 
@@ -67,17 +68,8 @@ const sortedLogs = computed(() => {
   return [...props.logs].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 });
 
-// 상세 페이지 이동 (로그 전용 상세 페이지가 있다고 가정)
 const goToLogDetail = (logId) => {
   navigateTo(`/logs/${logId}`);
-};
-
-// 날짜 포맷 (상세)
-const formatDate = (dateStr) => {
-  return new Intl.DateTimeFormat('ko-KR', {
-    month: 'short',
-    day: 'numeric'
-  }).format(new Date(dateStr));
 };
 
 // 날짜 포맷 (심플 - 이미지/메모 없을 때)

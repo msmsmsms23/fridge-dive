@@ -9,7 +9,8 @@
 
       <UButton
         block
-        variant="outline"
+        color="white"
+        variant="soft"
         icon="i-heroicons-pencil-square"
         @click="startManualInput"
       >
