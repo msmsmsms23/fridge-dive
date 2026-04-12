@@ -1,5 +1,9 @@
 import { pgTable, serial, timestamp, varchar, boolean, integer, text } from 'drizzle-orm/pg-core';
+import { relations } from 'drizzle-orm'
 import { users } from './users';
+import { recipeIngredients } from './recipeIngredients';
+import { recipeSteps } from './recipeSteps';
+import { cookingLogs } from './cookingLogs';
 
 export const recipes = pgTable('recipes', {
   id: serial('id').primaryKey(),
@@ -10,3 +14,9 @@ export const recipes = pgTable('recipes', {
   isAiGenerated: boolean('is_ai_generated').default(false).notNull(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
 });
+
+export const recipesRelations = relations(recipes, ({ many }) => ({
+  ingredients: many(recipeIngredients),
+  steps: many(recipeSteps),
+  cookingLogs: many(cookingLogs),
+}));

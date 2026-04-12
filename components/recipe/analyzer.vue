@@ -11,7 +11,7 @@
       <template #text-input>
         <div class="space-y-4 py-4">
           <UTextarea v-model="rawText" placeholder="레시피를 자유롭게 써주세요..." :rows="8" />
-          <UButton block size="lg" :loading="loading" @click="onAnalyzeText">텍스트 분석</UButton>
+          <UButton block size="lg" :loading="loading" :disabled="!rawText" @click="onAnalyzeText">텍스트 분석</UButton>
         </div>
       </template>
 

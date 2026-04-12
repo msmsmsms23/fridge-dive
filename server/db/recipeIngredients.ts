@@ -1,4 +1,5 @@
 import { pgTable, serial, integer, varchar, boolean } from 'drizzle-orm/pg-core';
+import { relations } from 'drizzle-orm'
 import { recipes } from './recipes';
 
 export const recipeIngredients = pgTable('recipe_ingredients', {
@@ -8,3 +9,10 @@ export const recipeIngredients = pgTable('recipe_ingredients', {
   amount: varchar('amount', { length: 50 }),
   isEssential: boolean('is_essential').default(true).notNull(),
 });
+
+export const recipeIngredientsRelations = relations(recipeIngredients, ({ one }) => ({
+  recipe: one(recipes, {
+    fields: [recipeIngredients.recipeId],
+    references: [recipes.id],
+  }),
+}));

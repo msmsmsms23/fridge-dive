@@ -15,7 +15,34 @@
         </div>
 
         <div v-if="hasRecipes" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <p>레시피가 들어올 자리입니다.</p>
+          <UCard
+            v-for="recipe in recipesList"
+            :key="recipe.id"
+            class="hover:shadow-lg transition-all cursor-pointer hover:-translate-y-1"
+            @click="goToDetail(recipe.id)"
+          >
+            <template #header>
+              <div class="flex justify-between items-start">
+                <h3 class="font-bold text-lg truncate flex-1">{{ recipe.title }}</h3>
+                <UIcon name="i-heroicons-chevron-right" class="text-gray-400" />
+              </div>
+            </template>
+
+            <p class="text-sm text-gray-600 line-clamp-2 min-h-[40px]">
+              {{ recipe.description || '설명이 없는 레시피입니다.' }}
+            </p>
+
+            <template #footer>
+              <div class="flex justify-between items-center">
+        <span class="text-xs text-gray-400">
+          {{ new Date(recipe.createdAt).toLocaleDateString() }}
+        </span>
+                <UBadge color="primary" variant="soft" size="xs">
+                  {{ recipe.cookingLogs?.length || 0 }}개의 기록
+                </UBadge>
+              </div>
+            </template>
+          </UCard>
         </div>
 
         <UCard v-else class="text-center py-20 bg-gray-50/50 border-dashed border-2">
@@ -47,5 +74,22 @@
 import AuthTabs from "~/app/components/AuthTabs.vue";
 
 const userStore = useUserStore();
-const hasRecipes = ref(false); // 나중에 실제 데이터 길이에 따라 변경
+
+const recipesList = computed(() => recipeResponse.value?.data || []);
+const hasRecipes = computed(() => recipesList.value.length > 0);
+
+const { data: recipeResponse, refresh } = await useFetch('/api/recipes', {
+  immediate: !!userStore.user,
+  watch: [() => userStore.user]
+});
+
+const goToDetail = (id) => {
+  navigateTo(`/recipes/${id}`);
+};
+
+onMounted(() => {
+  if (userStore.user) refresh();
+});
 </script>
+
+지금 이거야

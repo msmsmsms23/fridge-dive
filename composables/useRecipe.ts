@@ -14,7 +14,7 @@ export const useRecipe = () => {
       alert('나만의 레시피 박스에 저장되었습니다! 🍳');
       navigateTo('/');
     } catch (err: any) {
-      alert('저장 실패: ' + err);
+      alert('저장 실패: ' + err.message);
       throw err;
     } finally {
       isSaving.value = false;

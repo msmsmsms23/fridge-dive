@@ -1,4 +1,5 @@
 import { pgTable, serial, integer, text, timestamp } from 'drizzle-orm/pg-core';
+import { relations } from 'drizzle-orm'
 import { users } from './users';
 import { recipes } from './recipes';
 
@@ -10,3 +11,10 @@ export const cookingLogs = pgTable('cooking_logs', {
   memo: text('memo'),
   createdAt: timestamp('created_at').notNull().defaultNow(),
 });
+
+export const cookingLogsRelations = relations(cookingLogs, ({ one }) => ({
+  recipe: one(recipes, {
+    fields: [cookingLogs.recipeId],
+    references: [recipes.id],
+  }),
+}));

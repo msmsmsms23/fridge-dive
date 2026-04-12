@@ -26,7 +26,7 @@
           <UTextarea
             :model-value="modelValue.description"
             @update:model-value="updateField('description', $event)"
-            placeholder="이 레시피의 특징을 적어주세요"
+            placeholder="이 레시피의 특징을 적어 주세요"
             autoresize
           />
         </UFormGroup>
@@ -80,7 +80,7 @@
 
             <div class="space-y-3 bg-gray-50 p-4 rounded-xl border border-gray-100 shadow-sm">
               <div class="flex gap-2 items-start">
-                <UTextarea v-model="step.instruction" class="flex-1" placeholder="조리 방법을 설명해주세요" autoresize :rows="2" />
+                <UTextarea v-model="step.instruction" class="flex-1" placeholder="조리 방법을 설명해 주세요" autoresize :rows="2" />
                 <UButton color="red" variant="ghost" icon="i-heroicons-x-mark" size="xs" @click="removeStep(index)" />
               </div>
 
