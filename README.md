@@ -1,3 +1,9 @@
+# 🧊 FridgeDive
+
+> **AI가 제안하는 스마트한 냉장고 관리 & 레시피 추천 서비스**
+
+[실제 서비스 보러가기 (Demo)](https://fridge-dive-dt1l9raw0-msmsmsms23s-projects.vercel.app/recipes/1)
+
 ### 🛠 Tech Stack
 
 ![Nuxt session](https://img.shields.io/badge/Nuxt-00DC82?style=for-the-badge&logo=nuxtdotjs&logoColor=white)
