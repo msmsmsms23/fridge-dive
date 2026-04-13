@@ -28,11 +28,9 @@
 
 1. 내 레시피 모음
 ![메인화면](https://github.com/user-attachments/assets/38dab17c-d700-45b6-8ecc-396664e098ab)
-사용자가 저장한 레시피 모음
 
 2. 요리 기록 타임라인
 ![메인화면2](https://github.com/user-attachments/assets/117d697b-8c97-4041-8372-1be10444bf10)
-사용자가 기록한 요리 모음
 
 3. AI 분석 (텍스트/이미지)
 ![AI요약화면](https://github.com/user-attachments/assets/bbf5aae6-5d0e-4f7b-9ffe-7e48a184b26a)
