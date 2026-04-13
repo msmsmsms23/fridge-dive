@@ -1,11 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  ssr: false,
-  app: {
-    baseURL: 'fridge-dive/',
-    buildAssetsDir: 'assets',
-  },
-
   modules: ['@nuxt/eslint', '@nuxt/ui', '@pinia/nuxt'],
 
   devtools: {
@@ -30,7 +24,7 @@ export default defineNuxtConfig({
     isEnabled: true,
     disableServerSideAuth: false,
     originEnvKey: 'AUTH_ORIGIN',
-    baseURL: 'http://localhost:3000/api/auth',
+    baseURL: '/',
     provider: {
       type: 'local',
       token: {
