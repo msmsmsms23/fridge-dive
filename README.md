@@ -4,7 +4,7 @@
 > 
 > "냉장고 속 남은 재료, 이제 AI와 함께 근사한 요리로 재탄생시키세요."
 
-[실제 서비스 보러 가기 (Demo)](https://fridge-dive-dt1l9raw0-msmsmsms23s-projects.vercel.app/recipes/1)
+[실제 서비스 보러 가기 (Demo)](https://fridge-dive-dt1l9raw0-msmsmsms23s-projects.vercel.app)
 
 ---
 
