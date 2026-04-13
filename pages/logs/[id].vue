@@ -15,7 +15,7 @@
             {{ formatDate(log.createdAt) }}요일
           </p>
           <h1 class="text-3xl font-black text-gray-900 leading-tight">
-            <span class="text-primary-500">{{ log.recipe?.title || '' }}</span>을 만든 기록
+            <span class="text-primary-500">{{ log.recipe?.title || '' }}</span> 만든 날
           </h1>
         </div>
 

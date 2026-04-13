@@ -1,11 +1,31 @@
 <template>
   <form class="space-y-4 py-4" @submit.prevent="handleRegister">
     <UFormGroup label="이메일" required>
-      <UInput v-model="form.email" type="email" icon="i-heroicons-envelope" />
+      <div class="relative flex items-center">
+        <UInput
+          v-model="form.email"
+          type="email"
+          icon="i-heroicons-envelope"
+          placeholder="example@email.com"
+          class="flex-1"
+          :ui="{ wrapper: 'relative w-full' }"
+        />
+        <UButton
+          label="중복 확인"
+          variant="ghost"
+          color="primary"
+          class="absolute right-2 z-10 text-xs font-bold"
+          @click.stop.prevent="handleCheckEmail"
+        />
+      </div>
+
+      <p v-if="isCheckEmailDone" class="mt-1 text-xs transition-all duration-200" :class="isEmailExisting ? 'text-red-500' : 'text-primary-600'">
+        {{ isEmailExisting ? '❌ 이미 가입된 이메일입니다.' : '✅ 사용 가능한 이메일입니다.' }}
+      </p>
     </UFormGroup>
 
     <UFormGroup label="닉네임" required>
-      <UInput v-model="form.nickname" icon="i-heroicons-user" />
+      <UInput v-model="form.nickname" icon="i-heroicons-user" placeholder="어떻게 불러 드릴까요?" />
     </UFormGroup>
 
     <UFormGroup label="비밀번호" required>
@@ -49,6 +69,13 @@
 const form = reactive({ email: '', nickname: '', password: '', password2: '' })
 const loading = ref(false)
 const errorMsg = ref('')
+const isEmailExisting = ref(false)
+const isCheckEmailDone = ref(false)
+
+watch(() => form.email, () => {
+  isCheckEmailDone.value = false
+  isEmailExisting.value = false
+})
 
 const isPasswordValid = computed(() => {
   const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/
@@ -59,11 +86,44 @@ const isPasswordMatched = computed(() => {
   return form.password && form.password === form.password2
 })
 
+const handleCheckEmail = async () => {
+  if (!form.email) {
+    return
+  }
+
+  errorMsg.value = ''
+  try {
+    const response = await fetch('/api/auth/check-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: form.email })
+    });
+
+    const data = await response.json()
+
+    isEmailExisting.value = data > 0
+    isCheckEmailDone.value = true
+
+  } catch (err) {
+    errorMsg.value = '이메일 확인 중 오류가 발생했습니다.'
+  }
+}
+
 const handleRegister = async () => {
   errorMsg.value = ''
 
   if (!form.email || !form.nickname || !form.password || !form.password2) {
     errorMsg.value = '모든 정보를 채워 주세요.'
+    return
+  }
+
+  if (!isCheckEmailDone.value) {
+    errorMsg.value = '이메일 중복 확인을 진행해 주세요.'
+    return
+  }
+
+  if (isEmailExisting.value) {
+    errorMsg.value = '이미 사용 중인 이메일입니다.'
     return
   }
 

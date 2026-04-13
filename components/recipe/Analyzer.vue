@@ -1,9 +1,24 @@
 <template>
   <UCard>
     <template #header>
-      <div class="flex items-center gap-2">
-        <UIcon name="i-heroicons-sparkles" class="w-6 h-6 text-primary-500" />
-        <h3 class="text-xl font-bold">AI 레시피 등록</h3>
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <UIcon name="i-heroicons-sparkles" class="w-6 h-6 text-primary-500" />
+          <h3 class="text-xl font-bold">AI 레시피 등록</h3>
+
+          <UPopover mode="hover">
+            <UIcon
+              name="i-heroicons-question-mark-circle"
+              class="w-5 h-5 text-gray-400 cursor-help hover:text-gray-600 transition-colors"
+            />
+
+            <template #panel>
+              <div class="p-4 text-sm max-w-[250px] leading-relaxed">
+                텍스트나 이미지를 자유롭게 올리면 AI가 레시피의 이름, 설명, 재료, 요리 단계를 정리해 줘요.
+              </div>
+            </template>
+          </UPopover>
+        </div>
       </div>
     </template>
 
@@ -23,7 +38,7 @@
         <div class="space-y-4 py-4">
           <UTextarea
             v-model="rawText"
-            placeholder="레시피를 자유롭게 써 주세요..."
+            placeholder="레시피를 자유롭게 써 주세요... (예시: 물 두 스푼과 식용유 조금, 불닭소스, 모짜렐라 치즈를 넣고 전자레인지 2분 돌리기)"
             :rows="8"
             :disabled="loading"
           />

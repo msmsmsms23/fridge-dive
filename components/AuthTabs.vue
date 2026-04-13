@@ -15,4 +15,3 @@ const authTabs = [
   { label: '회원가입', slot: 'register-slot' }
 ]
 </script>
-ㅈ

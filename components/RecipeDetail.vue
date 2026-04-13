@@ -1,15 +1,31 @@
 <template>
-  <div class="max-w-3xl mx-auto space-y-8 pt-10">
-    <div class="flex justify-between items-end border-b pb-6">
-      <div class="space-y-2 mb-4">
-        <h1 class="text-4xl font-black text-gray-900 leading-tight">{{ recipe.title }}</h1>
-        <p class="text-lg text-gray-500">{{ recipe.description || '맛있는 요리 시간을 가져보세요.' }}</p>
-      </div>
-      <div class="flex gap-2 mb-4">
-        <UButton color="gray" variant="soft" icon="i-heroicons-pencil" @click="$emit('edit')">수정</UButton>
-        <UButton color="primary" size="lg" icon="i-heroicons-fire" @click="$emit('start')">요리 시작</UButton>
-      </div>
+  <div class="max-w-3xl mx-auto space-y-8 pt-10 px-4"> <div class="flex flex-col sm:flex-row justify-between sm:items-end border-b pb-6 gap-4">
+    <div class="space-y-2">
+      <h1 class="text-3xl sm:text-4xl font-black text-gray-900 leading-tight">{{ recipe.title }}</h1>
+      <p class="text-base sm:text-lg text-gray-500">{{ recipe.description || '맛있는 요리 시간을 가져보세요.' }}</p>
     </div>
+
+    <div class="flex gap-2 w-full sm:w-auto">
+      <UButton
+        color="gray"
+        variant="soft"
+        icon="i-heroicons-pencil"
+        class="flex-1 sm:flex-none justify-center"
+        @click="$emit('edit')"
+      >
+        수정
+      </UButton>
+      <UButton
+        color="primary"
+        size="lg"
+        icon="i-heroicons-fire"
+        class="flex-[2] sm:flex-none justify-center"
+        @click="$emit('start')"
+      >
+        요리 시작
+      </UButton>
+    </div>
+  </div>
 
     <section>
       <h3 class="text-xl font-bold mb-4 flex items-center gap-2">

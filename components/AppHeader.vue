@@ -15,17 +15,21 @@
         </UButton>
       </template>
 
-      <UButton v-else to="/" color="primary">로그인</UButton>
+      <UButton v-else-if="!hideLoginButton" to="/" color="primary">로그인</UButton>
     </div>
   </header>
 </template>
 
 <script setup>
 const userStore = useUserStore();
+const route = useRoute();
+
+const hideLoginButton = computed(() => {
+  return route.path === '/';
+});
 
 onMounted(async () => {
-  if (!userStore.user) { // 유저 정보가 없을 때만 가져오기
-    console.log('헤더에서 유저 정보 요청 중...');
+  if (!userStore.user) {
     await userStore.fetchCurrentUser();
   }
 });

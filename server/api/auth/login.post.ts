@@ -28,9 +28,6 @@ export default defineEventHandler(async (event) => {
   if (!isSamePassword) {
     setResponseStatus(event, 404, 'Passwords do not match. Please try again.')
     return
-  } else if (!user?.enabled) {
-    setResponseStatus(event, 404, "Your account isn’t verified.")
-    return
   }
 
   const token = crypto.randomBytes(64).toString('hex')
@@ -45,8 +42,6 @@ export default defineEventHandler(async (event) => {
   const client = await redis.getClient()
 
   await client.set(`session__${token}`, user.id)
-
-  //await db.update(users).set({ lastLoginAt: sql`NOW()` }).where(eq(users.email, body.email))
 
   return user
 })
