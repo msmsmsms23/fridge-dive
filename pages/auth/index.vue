@@ -8,21 +8,11 @@
     <UCard class="w-full max-w-md shadow-xl">
       <AuthTabs />
     </UCard>
-
-    <UButton
-      to="/"
-      variant="ghost"
-      color="gray"
-      icon="i-heroicons-arrow-left"
-      class="mt-6"
-    >
-      홈으로 돌아가기
-    </UButton>
   </div>
 </template>
 
 <script setup>
-import AuthTabs from "~/app/components/AuthTabs.vue";
+import AuthTabs from "~/components/AuthTabs.vue";
 
 const userStore = useUserStore();
 

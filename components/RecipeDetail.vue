@@ -34,7 +34,7 @@
           <span class="text-primary-500 font-black text-xl italic">{{ step.stepOrder }}</span>
           <div class="space-y-1 flex-1">
             <p class="text-gray-700 leading-relaxed">{{ step.instruction }}</p>
-            <div v-if="step.timerSeconds > 0" class="flex items-center gap-1 text-xs text-orange-500 font-medium">
+            <div v-if="step.timerSeconds > 0" class="flex items-center gap-1 text-xs text-primary-500 font-medium">
               <UIcon name="i-heroicons-clock" />
               {{ Math.floor(step.timerSeconds / 60) }}분 {{ step.timerSeconds % 60 }}초 타이머
             </div>

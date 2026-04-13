@@ -101,7 +101,7 @@
               </div>
             </div>
           </div>
-          <UCard v-else class="text-center py-20 bg-gray-50/50 border-dashed border-2 rounded-3xl">
+          <UCard v-else class="text-center py-20 bg-gray-50/50 rounded-3xl">
             <div class="flex flex-col items-center">
               <UIcon name="i-heroicons-camera" class="w-12 h-12 text-gray-300 mb-4" />
               <p class="text-gray-500 font-medium">아직 완성된 요리 기록이 없어요.</p>
@@ -127,7 +127,7 @@
 </template>
 
 <script setup>
-import AuthTabs from "~/app/components/AuthTabs.vue";
+import AuthTabs from "~/components/AuthTabs.vue";
 
 const userStore = useUserStore();
 const activeTab = ref('recipes'); // 현재 활성화된 탭 ('recipes' | 'logs')

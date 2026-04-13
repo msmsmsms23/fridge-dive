@@ -48,10 +48,10 @@
               />
               <UButton
                 :icon="isTimerRunning ? 'i-heroicons-pause-circle' : 'i-heroicons-play-circle'"
-                :color="isTimerRunning ? 'orange' : 'primary'"
+                :color="isTimerRunning ? 'gray' : 'primary'"
                 size="xl"
                 class="rounded-full w-20 h-20 flex items-center justify-center shadow-lg transform transition-all active:scale-95"
-                :class="isTimerRunning ? 'shadow-orange-200' : 'shadow-primary-200'"
+                :class="isTimerRunning ? 'shadow-gray-200' : 'shadow-primary-200'"
                 @click="$emit('toggleTimer')"
               >
                 <template #leading>
@@ -83,7 +83,7 @@
                  trailing-icon="i-heroicons-chevron-right" class="px-8" @click="$emit('next')">
           다음
         </UButton>
-        <UButton v-else color="green" size="xl" icon="i-heroicons-check-badge"
+        <UButton v-else color="primary" size="xl" icon="i-heroicons-check-badge"
                  class="px-8 shadow-lg shadow-green-100" @click="$emit('finish')">
           요리 완료!
         </UButton>

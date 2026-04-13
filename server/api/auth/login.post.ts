@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
   })
 
   if (!user) {
-    setResponseStatus(event, 404, 'No users')
+    setResponseStatus(event, 401, 'No users')
     return
   }
 

@@ -47,7 +47,7 @@
             <UButton
               icon="i-heroicons-plus"
               size="xs"
-              variant="soft"
+              variant="ghost"
               label="재료 추가"
               @click="addIngredient"
             />
@@ -83,7 +83,7 @@
             <UButton
               icon="i-heroicons-plus"
               size="xs"
-              variant="soft"
+              variant="ghost"
               label="단계 추가"
               @click="addStep"
             />
@@ -122,9 +122,9 @@
                     autoresize
                     :rows="2"
                   />
-                  <div class="flex items-center gap-3 bg-orange-50 w-fit px-3 py-1.5 rounded-full">
-                    <UIcon name="i-heroicons-clock" class="text-orange-500 w-4 h-4" />
-                    <span class="text-xs font-bold text-orange-600">타이머 설정:</span>
+                  <div class="flex items-center gap-3 bg-gray-100 w-fit px-3 py-1.5 rounded-full">
+                    <UIcon name="i-heroicons-clock" class="text-primary-400 w-4 h-4" />
+                    <span class="text-xs font-bold text-primary-600">타이머 설정:</span>
                     <UInput
                       v-model.number="element.timerSeconds"
                       type="number"
@@ -133,7 +133,7 @@
                       variant="none"
                       placeholder="0"
                     />
-                    <span class="text-xs text-orange-600">초</span>
+                    <span class="text-xs text-primary-400">초</span>
                   </div>
                 </div>
               </div>

@@ -34,11 +34,11 @@
 </template>
 
 <script setup>
-import CookingLogModal from '~/app/components/CookingLogModal.vue'
-import CookingLogList from '~/app/components/CookingLogList.vue'
-import RecipeStateView from "~/app/components/RecipeStateView.vue";
-import RecipeDetail from "~/app/components/RecipeDetail.vue";
-import CookingMode from "~/app/components/CookingMode.vue";
+import CookingLogModal from '~/components/CookingLogModal.vue'
+import CookingLogList from '~/components/CookingLogList.vue'
+import RecipeStateView from "~/components/RecipeStateView.vue";
+import RecipeDetail from "~/components/RecipeDetail.vue";
+import CookingMode from "~/components/CookingMode.vue";
 
 const route = useRoute()
 const recipeId = route.params.id

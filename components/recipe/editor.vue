@@ -105,7 +105,7 @@
 
     <template #footer>
       <div class="flex gap-3">
-        <UButton variant="outline" color="gray" class="flex-1" size="xl" @click="$emit('reset')">
+        <UButton variant="ghost" color="primary" class="flex-1" size="xl" @click="$emit('reset')">
           취소
         </UButton>
         <UButton
