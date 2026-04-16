@@ -1,10 +1,11 @@
 import { db } from '#server/utils/database';
-import { cookingLogs } from '../../../db/schema';
+import { cookingLogs, recipes  } from '../../../db/schema';
+import { eq } from 'drizzle-orm';
 
 export default defineEventHandler(async (event) => {
   const id = getRouterParam(event, 'id');
 
-  const user = event.currentUser; // 미들웨어 설정에 따라 확인
+  const user = event.currentUser;
 
   if (!user) {
     throw createError({ statusCode: 401, statusMessage: "로그인이 필요합니다." });
@@ -15,17 +16,23 @@ export default defineEventHandler(async (event) => {
   }
 
   const body = await readBody(event);
-  const { memo, finishedImageUrl } = body;
+  const { memo, finishedImageUrl, isPublic } = body;
 
   try {
     const recipeId = parseInt(id);
 
-    const [newLog] = await db.insert(cookingLogs).values({
-      recipeId: recipeId,
+    const newLog = await db.insert(cookingLogs).values({
+      recipeId,
       userId: user.id,
-      finishedImageUrl: finishedImageUrl || null,
-      memo: memo || '',
-    }).returning();
+      memo,
+      finishedImageUrl,
+    });
+
+    if (isPublic) {
+      await db.update(recipes)
+        .set({ isPublic: isPublic })
+        .where(eq(recipes.id, recipeId));
+    }
 
     return {
       success: true,

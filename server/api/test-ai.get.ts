@@ -26,7 +26,6 @@ export default defineEventHandler(async (event) => {
         title: recipeData.title,
         description: recipeData.description,
         userId: user.id,
-        isAiGenerated: true,
       }).returning();
 
       if (!newRecipe) {

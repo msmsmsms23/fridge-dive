@@ -14,19 +14,12 @@
           로그아웃
         </UButton>
       </template>
-
-      <UButton v-else-if="!hideLoginButton" to="/" color="primary">로그인</UButton>
     </div>
   </header>
 </template>
 
 <script setup>
 const userStore = useUserStore();
-const route = useRoute();
-
-const hideLoginButton = computed(() => {
-  return route.path === '/';
-});
 
 onMounted(async () => {
   if (!userStore.user) {

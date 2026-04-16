@@ -32,13 +32,17 @@
 const recipeData = ref(null);
 const { saveRecipe, isSaving } = useRecipe();
 
-// 빈 양식으로 시작하기
 const startManualInput = () => {
   recipeData.value = {
     title: '',
     description: '',
+    isPublic: 'private',
     ingredients: [{ name: '', amount: '' }],
-    steps: [{ instruction: '', timerSeconds: 0, tempId: Date.now() }]
+    steps: [{
+      stepOrder: 1,
+      instruction: '',
+      timerSeconds: 0
+    }]
   };
 };
 

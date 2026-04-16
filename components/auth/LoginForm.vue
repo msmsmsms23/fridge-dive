@@ -57,6 +57,8 @@ const handleLogin = async () => {
     }
 
     await userStore.fetchCurrentUser();
+    const data = await response.json();
+    alert(`${data.nickname}님, 환영합니다!`);
     navigateTo('/')
   } finally {
     loading.value = false

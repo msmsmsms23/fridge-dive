@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
         title: recipeData.title,
         description: recipeData.description || "",
         userId: user.id,
-        isAiGenerated: true,
+        isPublic: recipeData.isPublic
       }).returning();
 
       if (!newRecipe) throw new Error("레시피 헤더 저장 실패");
@@ -34,9 +34,9 @@ export default defineEventHandler(async (event) => {
 
       if (recipeData.steps?.length > 0) {
         await tx.insert(recipeSteps).values(
-          recipeData.steps.map((step: any) => ({
+          recipeData.steps.map((step: any, index: number) => ({ // index 활용
             recipeId: newRecipe.id,
-            stepOrder: step.stepOrder,
+            stepOrder: step.stepOrder || (index + 1),
             instruction: step.instruction,
             timerSeconds: step.timerSeconds || 0,
           }))

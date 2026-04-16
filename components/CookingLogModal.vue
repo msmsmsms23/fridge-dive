@@ -16,7 +16,7 @@
             @click="triggerFileInput"
           >
             <template v-if="previewUrl">
-              <img :src="previewUrl" class="w-full h-full object-cover" />
+              <img :src="previewUrl" alt="previewImage" class="w-full h-full object-cover" />
               <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
                 <p class="text-white text-sm font-bold">사진 변경하기</p>
               </div>
@@ -28,6 +28,23 @@
           </div>
           <input type="file" ref="fileInput" class="hidden" accept="image/*" @change="handleFileChange" />
         </div>
+
+        <UFormGroup label="레시피 공개 설정" description="이 레시피를 다른 사람들에게 공유할까요?">
+          <div class="flex gap-2 p-1 bg-gray-100 rounded-xl">
+            <UButton
+              v-for="option in [{ label: '전체 공개', value: 'public', icon: 'i-heroicons-globe-alt' }, { label: '나만 보기', value: 'private', icon: 'i-heroicons-lock-closed' }]"
+              :key="option.value"
+              class="flex-1 rounded-lg font-bold transition-all"
+              :color="isPublic === option.value ? 'white' : 'gray'"
+              :variant="isPublic === option.value ? 'solid' : 'ghost'"
+              :ui="{ color: { white: { solid: 'shadow-sm text-primary-600' }, transparent: { ghost: 'text-gray-500 hover:bg-gray-200/50' } } }"
+              @click="isPublic = option.value"
+            >
+              <UIcon :name="option.icon" class="mr-1" />
+              {{ option.label }}
+            </UButton>
+          </div>
+        </UFormGroup>
 
         <UFormGroup label="요리 메모" description="오늘 요리하며 느낀 점이나 꿀팁을 적어보세요.">
           <UTextarea
@@ -70,6 +87,7 @@ const previewUrl = ref(null);
 const selectedFile = ref(null);
 const fileInput = ref(null);
 const isSaving = ref(false);
+const isPublic = ref('public');
 
 const { uploadImage } = usePhotoUpload(); // Cloudinary 업로드용 컴포저블
 
@@ -135,19 +153,19 @@ const submitLog = async () => {
       imageUrl = await uploadImage(selectedFile.value);
     }
 
-    console.log('2. 백엔드로 보낼 주소:', imageUrl);
-
     await $fetch(`/api/recipes/${props.recipeId}/complete`, {
       method: 'POST',
       body: {
         memo: memo.value,
-        finishedImageUrl: imageUrl
+        finishedImageUrl: imageUrl,
+        isPublic: isPublic.value
       }
     });
 
     emit('success');
     closeModal();
   } catch (error) {
+    console.error(error);
     alert('기록 저장 중 오류가 발생했어요.');
   } finally {
     isSaving.value = false;
@@ -155,7 +173,6 @@ const submitLog = async () => {
 };
 
 const skipLog = async () => {
-  // 사진/메모 없이 기록만 저장
   await submitLog();
 };
 </script>

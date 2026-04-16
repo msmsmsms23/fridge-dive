@@ -17,18 +17,36 @@
         <UFormGroup label="레시피 제목" required>
           <UInput
             :model-value="modelValue.title"
-            @update:model-value="updateField('title', $event)"
             size="lg"
             placeholder="제목을 입력하세요"
+            @update:model-value="updateField('title', $event)"
           />
         </UFormGroup>
         <UFormGroup label="한줄 설명">
           <UTextarea
             :model-value="modelValue.description"
-            @update:model-value="updateField('description', $event)"
             placeholder="이 레시피의 특징을 적어 주세요"
             autoresize
+            @update:model-value="updateField('description', $event)"
           />
+        </UFormGroup>
+
+        <UFormGroup label="공개 범위 설정">
+          <USelectMenu
+            :model-value="getVisibilityOption(modelValue.isPublic)"
+            :options="visibilityOptions"
+            @update:model-value="updateVisibility"
+          >
+            <template #label>
+              <div class="flex items-center gap-2">
+                <UIcon :name="getVisibilityOption(modelValue.isPublic).icon" class="w-4 h-4" />
+                <span>{{ getVisibilityOption(modelValue.isPublic).label }}</span>
+              </div>
+            </template>
+          </USelectMenu>
+          <p class="mt-1 text-xs text-gray-500">
+            {{ getVisibilityOption(modelValue.isPublic).description }}
+          </p>
         </UFormGroup>
       </section>
 
@@ -136,7 +154,12 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'reset', 'save']);
 
-// 필드 업데이트 함수 (v-model 안정성 확보)
+const visibilityOptions = [
+  { label: '나만 보기', value: 'private', icon: 'i-heroicons-lock-closed', description: '나의 레시피함에만 보관합니다.' },
+  { label: '친구 공개', value: 'friends', icon: 'i-heroicons-user-group', description: '나를 팔로우하는 친구들에게만 공개합니다.' },
+  { label: '전체 공개', value: 'public', icon: 'i-heroicons-globe-americas', description: '커뮤니티 모든 사용자가 볼 수 있습니다.' }
+];
+
 const updateField = (field, value) => {
   emit('update:modelValue', {
     ...props.modelValue,
@@ -144,7 +167,16 @@ const updateField = (field, value) => {
   });
 };
 
-// 재료 관리
+const getVisibilityOption = (isPublic) => {
+  if (isPublic === 'private') return visibilityOptions[0];
+  if (isPublic === 'friends') return visibilityOptions[1];
+  return visibilityOptions[2];
+};
+
+const updateVisibility = (option) => {
+  updateField('isPublic', option.value);
+};
+
 const addIngredient = () => {
   const newIngredients = [...props.modelValue.ingredients, { name: '', amount: '', isEssential: true }];
   updateField('ingredients', newIngredients);
@@ -156,7 +188,6 @@ const removeIngredient = (index) => {
   updateField('ingredients', newIngredients);
 };
 
-// 단계 관리
 const addStep = () => {
   const maxOrder = props.modelValue.steps.reduce((max, s) => Math.max(max, s.stepOrder || 0), 0);
   const newSteps = [...props.modelValue.steps, { stepOrder: maxOrder + 1, instruction: '', timerSeconds: 0 }];
@@ -166,7 +197,6 @@ const addStep = () => {
 const removeStep = (index) => {
   const newSteps = [...props.modelValue.steps];
   newSteps.splice(index, 1);
-  // 순서 재정렬
   const reorderedSteps = newSteps.map((step, i) => ({ ...step, stepOrder: i + 1 }));
   updateField('steps', reorderedSteps);
 };

@@ -19,7 +19,6 @@ export default defineEventHandler(async (event) => {
     const recipe = await db.query.recipes.findFirst({
       where: and(
         eq(recipes.id, parseInt(id)),
-        eq(recipes.userId, user.id)
       ),
       with: {
         ingredients: true,

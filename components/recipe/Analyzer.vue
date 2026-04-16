@@ -58,7 +58,7 @@
             ]"
             @click="$refs.fileInput.click()"
           >
-            <img v-if="preview" :src="preview" class="max-h-64 mx-auto mb-2 rounded-md shadow-sm" />
+            <img v-if="preview" alt="previewImage" :src="preview" class="max-h-64 mx-auto mb-2 rounded-md shadow-sm" />
             <div v-else class="flex flex-col items-center gap-2">
               <UIcon name="i-heroicons-camera" class="w-10 h-10 text-gray-400" />
               <p class="text-gray-500">레시피가 담긴 사진을 올려주세요</p>
@@ -92,7 +92,6 @@ const onFileChange = (e) => {
   }
 };
 
-// ✅ 공통 가짜 진행률 함수
 let progressInterval;
 const startProgress = (type) => {
   progress.value = 0;
@@ -102,7 +101,6 @@ const startProgress = (type) => {
     if (progress.value < 90) {
       progress.value += Math.random() * 10;
 
-      // 진행률에 따라 메시지 변경 (디테일!)
       if (progress.value > 40 && progress.value < 70) {
         loadingText.value = 'AI가 조리 순서를 정리하고 있어요...';
       } else if (progress.value >= 70) {
