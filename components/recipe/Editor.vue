@@ -18,14 +18,14 @@
           <UInput
             :model-value="modelValue.title"
             size="lg"
-            placeholder="제목을 입력하세요"
+            placeholder="예: 매콤달콤 떡볶이"
             @update:model-value="updateField('title', $event)"
           />
         </UFormGroup>
         <UFormGroup label="한줄 설명">
           <UTextarea
             :model-value="modelValue.description"
-            placeholder="이 레시피의 특징을 적어 주세요"
+            placeholder="이 레시피만의 특별한 팁이 있나요?"
             autoresize
             @update:model-value="updateField('description', $event)"
           />

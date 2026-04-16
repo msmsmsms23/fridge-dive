@@ -17,19 +17,17 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event);
 
   return await db.transaction(async (tx) => {
-    // 1. 레시피 기본 정보 업데이트
     await tx.update(recipes)
       .set({
         title: body.title,
         description: body.description,
+        isPublic: body.isPublic
       })
       .where(and(eq(recipes.id, id), eq(recipes.userId, user.id)));
 
-    // 2. 기존 재료/단계 삭제 (다시 넣기 위해)
     await tx.delete(recipeIngredients).where(eq(recipeIngredients.recipeId, id));
     await tx.delete(recipeSteps).where(eq(recipeSteps.recipeId, id));
 
-    // 3. 새 재료 삽입
     if (body.ingredients?.length) {
       await tx.insert(recipeIngredients).values(
         body.ingredients.map((ing: any) => ({
@@ -40,7 +38,6 @@ export default defineEventHandler(async (event) => {
       );
     }
 
-    // 4. 새 단계 삽입
     if (body.steps?.length) {
       await tx.insert(recipeSteps).values(
         body.steps.map((step: any, idx: number) => ({

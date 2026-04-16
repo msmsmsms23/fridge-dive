@@ -12,7 +12,6 @@ export const useUserStore = defineStore('user', {
       try {
         const data = await $fetch('/api/auth/current');
         this.user = data.user || data;
-        console.log("유저 정보 로드 성공:", this.user);
       } catch (e) {
         this.user = null;
         console.log("로그인 상태 아님");

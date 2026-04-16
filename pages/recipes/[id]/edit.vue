@@ -22,7 +22,7 @@
         </div>
       </template>
 
-      <form @submit.prevent="updateRecipe" class="space-y-10">
+      <form class="space-y-10" @submit.prevent="updateRecipe">
         <section class="space-y-4">
           <div class="flex items-center gap-2 mb-2">
             <UIcon name="i-heroicons-document-text" class="text-primary-500 w-5 h-5" />
@@ -33,6 +33,23 @@
           </UFormGroup>
           <UFormGroup label="레시피 설명">
             <UTextarea v-model="form.description" placeholder="이 레시피만의 특별한 팁이 있나요?" autoresize />
+          </UFormGroup>
+          <UFormGroup label="공개 범위 설정">
+            <USelectMenu
+              :model-value="getVisibilityOption(form.isPublic)"
+              :options="visibilityOptions"
+              @update:model-value="updateVisibility"
+            >
+              <template #label>
+                <div class="flex items-center gap-2">
+                  <UIcon :name="getVisibilityOption(form.isPublic).icon" class="w-4 h-4" />
+                  <span>{{ getVisibilityOption(form.isPublic).label }}</span>
+                </div>
+              </template>
+            </USelectMenu>
+            <p class="mt-1 text-xs text-gray-500">
+              {{ getVisibilityOption(form.isPublic).description }}
+            </p>
           </UFormGroup>
         </section>
 
@@ -174,14 +191,20 @@ const route = useRoute();
 const recipeId = route.params.id;
 const loading = ref(false);
 
+const visibilityOptions = [
+  { label: '나만 보기', value: 'private', icon: 'i-heroicons-lock-closed', description: '나의 레시피함에만 보관합니다.' },
+  { label: '친구 공개', value: 'friends', icon: 'i-heroicons-user-group', description: '나를 팔로우하는 친구들에게만 공개합니다.' },
+  { label: '전체 공개', value: 'public', icon: 'i-heroicons-globe-americas', description: '커뮤니티 모든 사용자가 볼 수 있습니다.' }
+];
+
 const form = ref({
   title: '',
   description: '',
+  isPublic: '',
   ingredients: [],
   steps: []
 });
 
-// 1. 초기 데이터 가져오기
 const { data: recipeResponse } = await useFetch(`/api/recipes/${recipeId}`);
 
 onMounted(() => {
@@ -190,7 +213,7 @@ onMounted(() => {
     form.value = {
       title: d.title,
       description: d.description || '',
-      // 드래그 안정성을 위해 고유 tempId 부여
+      isPublic: d.isPublic || 'public',
       ingredients: d.ingredients.map(i => ({ name: i.name, amount: i.amount })),
       steps: d.steps.map((s, idx) => ({
         tempId: `step-${Date.now()}-${idx}`,
@@ -201,7 +224,14 @@ onMounted(() => {
   }
 });
 
-// 2. 항목 추가/삭제 로직
+const getVisibilityOption = (val) => {
+  return visibilityOptions.find(opt => opt.value === val) || visibilityOptions[2];
+};
+
+const updateVisibility = (option) => {
+  form.value.isPublic = option.value;
+};
+
 const addIngredient = () => {
   form.value.ingredients.push({ name: '', amount: '' });
 };
@@ -222,7 +252,6 @@ const removeStep = (index) => {
   form.value.steps.splice(index, 1);
 };
 
-// 3. 서버에 저장
 const updateRecipe = async () => {
   if (!form.value.title.trim()) return alert('제목은 필수입니다!');
 
@@ -242,7 +271,6 @@ const updateRecipe = async () => {
   }
 };
 
-// 4. 삭제 로직 추가
 const confirmDelete = async () => {
   if (!confirm('정말 이 레시피를 삭제하시겠습니까? 삭제 후에는 복구할 수 없습니다.')) return;
 
@@ -258,7 +286,6 @@ const goBack = () => navigateTo(`/recipes/${recipeId}`);
 </script>
 
 <style scoped>
-/* 드래그 애니메이션 효과 */
 .bg-primary-50 {
   background-color: #f0f9ff !important;
   border: 2px dashed #0ea5e9 !important;

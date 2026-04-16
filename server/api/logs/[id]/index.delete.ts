@@ -1,5 +1,5 @@
 import { db } from '#server/utils/database';
-import { recipes } from '../../../db/schema';
+import { cookingLogs } from '../../../db/schema';
 import { eq, and } from 'drizzle-orm';
 
 export default defineEventHandler(async (event) => {
@@ -16,8 +16,8 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    await db.delete(recipes)
-      .where(and(eq(recipes.id, parseInt(id)), eq(recipes.userId, user.id)));
+    await db.delete(cookingLogs)
+      .where(and(eq(cookingLogs.id, parseInt(id)), eq(cookingLogs.userId, user.id)));
     return { success: true };
   } catch (e) {
     throw createError({ statusCode: 500, statusMessage: "삭제 실패" });

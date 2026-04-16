@@ -1,5 +1,5 @@
 import { db } from '#server/utils/database';
-import { cookingLogs } from '../../db/schema';
+import { cookingLogs } from '../../../db/schema';
 import { eq } from 'drizzle-orm';
 
 export default defineEventHandler(async (event) => {
@@ -18,7 +18,14 @@ export default defineEventHandler(async (event) => {
   const log = await db.query.cookingLogs.findFirst({
     where: eq(cookingLogs.id, id),
     with: {
-      recipe: true
+      recipe: true,
+      user: {
+        columns: {
+          id: true,
+          nickname: true
+        }
+      },
+      reactions: true
     }
   });
 

@@ -2,6 +2,7 @@ import {pgTable, serial, integer, text, timestamp, varchar} from 'drizzle-orm/pg
 import { relations } from 'drizzle-orm'
 import { users } from './users';
 import { recipes } from './recipes';
+import { reactions } from './reactions';
 
 export const cookingLogs = pgTable('cooking_logs', {
   id: serial('id').primaryKey(),
@@ -13,7 +14,7 @@ export const cookingLogs = pgTable('cooking_logs', {
   createdAt: timestamp('created_at').notNull().defaultNow(),
 });
 
-export const cookingLogsRelations = relations(cookingLogs, ({ one }) => ({
+export const cookingLogsRelations = relations(cookingLogs, ({ one, many }) => ({
   recipe: one(recipes, {
     fields: [cookingLogs.recipeId],
     references: [recipes.id],
@@ -22,4 +23,5 @@ export const cookingLogsRelations = relations(cookingLogs, ({ one }) => ({
     fields: [cookingLogs.userId],
     references: [users.id],
   }),
+  reactions: many(reactions),
 }));

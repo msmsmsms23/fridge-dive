@@ -25,7 +25,13 @@ export default defineEventHandler(async (event) => {
         steps: {
           orderBy: (steps: { stepOrder: any; }) => [asc(steps.stepOrder)],
         },
-        cookingLogs: true
+        cookingLogs: true,
+        user: {
+          columns: {
+            id: true,
+            nickname: true
+          }
+        }
       },
     });
 

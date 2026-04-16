@@ -16,6 +16,8 @@ export const users = pgTable('users', {
 export const usersRelations = relations(users, ({ many }) => ({
   recipes: many(recipes),
   cookingLogs: many(cookingLogs),
-  followers: many(follows, { relationName: 'following' }),
-  following: many(follows, { relationName: 'follower' }),
+  // 내가 팔로우를 '받는' 경우 (나의 팔로워들)
+  followers: many(follows, { relationName: 'following_user' }),
+  // 내가 팔로우를 '하는' 경우 (나의 팔로잉들)
+  following: many(follows, { relationName: 'follower_user' }),
 }));
