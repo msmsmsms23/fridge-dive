@@ -25,11 +25,11 @@
 
       <div class="flex border-b border-gray-100 mb-8 gap-8">
         <button
-          v-for="tab in [{ id: 'recipes', label: 'Recipes' }, { id: 'logs', label: 'Feed' }]"
+          v-for="tab in [{ id: 'recipes', label: 'Recipes' }, { id: 'logs', label: 'Feed' }, { id: 'friends', label: 'Friends' }]"
           :key="tab.id"
-          @click="activeTab = tab.id"
           :class="activeTab === tab.id ? 'border-primary-500 text-primary-600' : 'border-transparent text-gray-400'"
           class="pb-4 px-2 border-b-2 font-bold transition-all text-lg"
+          @click="activeTab = tab.id"
         >
           {{ tab.label }}
         </button>
@@ -37,6 +37,7 @@
 
       <RecipeList v-if="activeTab === 'recipes'" />
       <LogFeed v-else-if="activeTab === 'logs'" />
+      <FriendsList v-else-if="activeTab === 'friends'" />
     </UContainer>
   </div>
 </template>

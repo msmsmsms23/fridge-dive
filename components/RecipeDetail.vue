@@ -21,7 +21,7 @@
               </div>
             </NuxtLink>
 
-            <FollowButton :target-user-id="recipe.user.id" @success="refresh" />
+            <FollowButton :target-user-id="recipe.user.id" @success="$emit('refresh')" />
           </div>
 
           <p class="text-lg text-gray-500 leading-relaxed">

@@ -18,8 +18,16 @@ export default defineEventHandler(async (event) => {
         createdAt: true,
       },
       with: {
-        followers: true,
-        following: true,
+        followers: {
+          with: {
+            follower: true
+          }
+        },
+        following: {
+          with: {
+            following: true
+          }
+        },
         recipes: {
           where: eq(recipes.isPublic, 'public'),
           orderBy: (recipes, {desc}) => [desc(recipes.createdAt)],

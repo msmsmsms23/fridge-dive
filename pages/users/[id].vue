@@ -14,11 +14,11 @@
     <h2 class="text-3xl font-black text-gray-900 mb-2">{{ userData?.nickname || '사용자' }}</h2>
 
     <div class="flex gap-6 mb-8 text-sm">
-      <div class="flex flex-col items-center">
+      <div class="flex flex-col items-center cursor-pointer hover:opacity-70 transition" @click="openFollowModal('followers')">
         <span class="font-black text-gray-900">{{ userData?._count?.followers || 0 }}</span>
         <span class="text-gray-400">팔로워</span>
       </div>
-      <div class="flex flex-col items-center">
+      <div class="flex flex-col items-center cursor-pointer hover:opacity-70 transition" @click="openFollowModal('following')">
         <span class="font-black text-gray-900">{{ userData?._count?.following || 0 }}</span>
         <span class="text-gray-400">팔로잉</span>
       </div>
@@ -27,6 +27,45 @@
         <span class="text-gray-400">레시피</span>
       </div>
     </div>
+
+    <UModal v-model="isFollowModalOpen">
+      <UCard :ui="{ divide: 'divide-y divide-gray-100' }">
+        <template #header>
+          <div class="flex items-center justify-between">
+            <h3 class="text-base font-bold leading-6 text-gray-900">
+              {{ modalTitle }} 목록
+            </h3>
+            <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1" @click="isFollowModalOpen = false" />
+          </div>
+        </template>
+
+        <div class="max-h-96 overflow-y-auto py-2">
+          <div v-if="followList?.length">
+            <div
+              v-for="person in followList"
+              :key="person.id"
+              class="flex items-center justify-between p-3 hover:bg-gray-50 rounded-xl cursor-pointer"
+              @click="followModalType === 'followers' ? navigateTo(`/users/${person.follower?.id}`) : navigateTo(`/users/${person.following?.id}`);
+                      isFollowModalOpen = false;"
+            >
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-primary-50 flex items-center justify-center text-xl">
+                  {{ getRandomEmoji(person.follower?.id || person.following?.id || person.id) }}
+                </div>
+
+                <span class="font-bold text-gray-800">
+                  {{ followModalType === 'followers' ? person.follower?.nickname : person.following?.nickname }}
+                </span>
+              </div>
+              <UIcon name="i-heroicons-chevron-right" class="text-gray-300" />
+            </div>
+          </div>
+          <div v-else class="text-center py-10 text-gray-400 italic">
+            목록이 비어 있어요.
+          </div>
+        </div>
+      </UCard>
+    </UModal>
 
     <div class="flex gap-3">
       <template v-if="userStore.user?.id !== Number(userId)">
@@ -38,7 +77,7 @@
         />
       </template>
 
-      <UButton v-else color="gray" variant="ghost" label="프로필 수정" icon="i-heroicons-cog-8-tooth" />
+      <UButton v-else to="/users/setting" color="gray" variant="ghost" label="프로필 수정" icon="i-heroicons-cog-8-tooth" />
     </div>
   </div>
 
@@ -139,6 +178,9 @@ const userId = route.params.id;
 const userStore = useUserStore();
 const activeTab = ref('recipes');
 
+const isFollowModalOpen = ref(false);
+const followModalType = ref('followers');
+
 const { data: userResponse, refresh } = await useFetch(`/api/users/${userId}`);
 const userData = computed(() => userResponse.value?.data);
 
@@ -156,4 +198,17 @@ const formatSimpleDate = (dateStr) => {
   const d = new Date(dateStr);
   return `${d.getMonth() + 1}/${d.getDate()}`;
 };
+
+const openFollowModal = (type) => {
+  followModalType.value = type;
+  isFollowModalOpen.value = true;
+};
+
+const modalTitle = computed(() => followModalType.value === 'followers' ? '팔로워' : '팔로잉');
+
+const followList = computed(() => {
+  return followModalType.value === 'followers'
+    ? userData.value?.followers
+    : userData.value?.following;
+});
 </script>

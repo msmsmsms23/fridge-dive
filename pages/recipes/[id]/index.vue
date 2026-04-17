@@ -8,7 +8,9 @@
         :recipe="recipe"
         @edit="navigateTo(`/recipes/${recipeId}/edit`)"
         @start="startCooking"
+        @refresh="refresh"
       />
+
       <CookingMode
         v-else
         :recipe="recipe"
@@ -43,7 +45,7 @@ import CookingMode from "~/components/CookingMode.vue";
 const route = useRoute()
 const recipeId = route.params.id
 
-const { data: recipeResponse, pending } = await useFetch(`/api/recipes/${recipeId}`)
+const { data: recipeResponse, pending, refresh } = await useFetch(`/api/recipes/${recipeId}`)
 const recipe = computed(() => recipeResponse.value?.data)
 
 const {
@@ -63,6 +65,7 @@ const handleCookingComplete = () => {
   alert('오늘의 요리 일기가 저장되었습니다! 🍳')
   navigateTo('/')
 }
+
 </script>
 
 <style scoped>

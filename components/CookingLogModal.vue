@@ -75,6 +75,7 @@ const props = defineProps({
   modelValue: Boolean,
   recipeId: [String, Number]
 });
+
 const emit = defineEmits(['update:modelValue', 'success']);
 
 const isOpen = computed({
