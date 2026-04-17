@@ -4,7 +4,7 @@
       <div class="flex justify-between items-center mb-8">
         <div v-if="userStore.user">
           <h1 class="text-3xl font-black text-gray-900 tracking-tight">
-            {{ userStore.user.nickname }} 님, 안녕하세요! 👋
+            {{ userStore.user?.nickname }} 님, 안녕하세요! 👋
           </h1>
           <p class="text-gray-500 mt-1">오늘의 요리 기록을 남겨 보세요.</p>
         </div>

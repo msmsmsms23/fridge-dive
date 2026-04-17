@@ -36,31 +36,10 @@ export const useUserStore = defineStore('user', {
       return false;
     },
 
-    async getUser() {
-      try {
-        const response = await fetch(`/api/user`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error(response.statusText);
-        }
-
-        this.userData = await response.json();
-      } catch (err) {
-        alert(err.message);
-        throw err;
-      }
-    },
-
-    async updateUser(username, email) {
-      if (confirm('Are you want to update?') === true) {
+    async updateUser(nickname) {
+      if (confirm('수정하시겠습니까?') === true) {
         const editForm = {
-          username,
-          email,
+          nickname
         };
 
         try {
@@ -77,7 +56,9 @@ export const useUserStore = defineStore('user', {
           }
 
           const data = await response.json();
-          alert('Success!');
+          alert('회원 정보가 수정되었습니다.');
+          this.user = { ...this.user, ...data[0] };
+          navigateTo('/')
           return data;
         } catch (err) {
           alert(err.message);
@@ -106,12 +87,43 @@ export const useUserStore = defineStore('user', {
           throw new Error(response.statusText);
         }
 
-        alert('Success!');
+        alert('비밀번호가 변경되었습니다.');
         return await response.json();
       } catch (err) {
-        alert(err.message);
         throw err;
       }
+    },
+
+    async deleteUser(id) {
+      if (confirm('정말 탈퇴하시겠습니까? 모든 정보가 삭제되며 복구하실 수 없습니다.') === true) {
+        const deleteForm = {
+          id
+        };
+
+        try {
+          const response = await fetch('/api/profile', {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(deleteForm),
+          });
+
+          if (!response.ok) {
+            throw new Error(response.statusText);
+          }
+
+          const data = await response.json();
+          alert('탈퇴되었습니다.');
+          await this.fetchCurrentUser();
+          navigateTo('/');
+          return data;
+        } catch (err) {
+          alert(err.message);
+          throw err;
+        }
+      }
+      return false;
     },
   },
 });

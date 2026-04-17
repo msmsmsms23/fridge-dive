@@ -145,10 +145,15 @@ const handleRegister = async () => {
       body: JSON.stringify(form)
     });
 
+    if (response.status === 409) {
+      errorMsg.value = '이미 사용 중인 닉네임입니다.'
+      return;
+    }
+
     if (!response.ok) throw new Error('가입에 실패했습니다. 정보를 확인해 주세요.')
 
-    alert(`${form.nickname}님, 환영합니다!`)
-    navigateTo('/auth')
+    alert(`${form.nickname} 님, 환영합니다!`)
+    navigateTo('/login')
   } catch (err) {
     errorMsg.value = err.message
   } finally {

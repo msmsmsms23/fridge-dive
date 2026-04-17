@@ -4,6 +4,9 @@
       <NuxtPage />
     </NuxtLayout>
   </UContainer>
+
+  <UModals />
+  <UNotifications />
 </template>
 
 <script setup>

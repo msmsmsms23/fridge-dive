@@ -59,7 +59,6 @@ export const extractRecipeFromImage = async (imageBuffer: Buffer, mimeType: stri
   }
 };
 
-// 공통 로직: AI가 준 텍스트에서 JSON만 쏙 빼내는 함수
 const parseGeminiResponse = (text: string) => {
   const jsonString = text.replace(/```json|```/g, "").trim();
   return JSON.parse(jsonString);
