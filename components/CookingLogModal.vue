@@ -154,7 +154,7 @@ const submitLog = async () => {
       imageUrl = await uploadImage(selectedFile.value);
     }
 
-    await $fetch(`/api/recipes/${props.recipeId}/complete`, {
+    const response = await $fetch(`/api/recipes/${props.recipeId}/complete`, {
       method: 'POST',
       body: {
         memo: memo.value,
@@ -163,7 +163,10 @@ const submitLog = async () => {
       }
     });
 
+    const logId = response.data?.id
+
     emit('success');
+    navigateTo(`/logs/${logId}`);
     closeModal();
   } catch (error) {
     console.error(error);

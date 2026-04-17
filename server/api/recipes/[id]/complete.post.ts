@@ -21,18 +21,20 @@ export default defineEventHandler(async (event) => {
   try {
     const recipeId = parseInt(id);
 
-    const newLog = await db.insert(cookingLogs).values({
+    const [newLog] = await db.insert(cookingLogs).values({
       recipeId,
       userId: user.id,
       memo,
       finishedImageUrl,
-    });
+    }).returning();
 
     if (isPublic) {
       await db.update(recipes)
         .set({ isPublic: isPublic })
         .where(eq(recipes.id, recipeId));
     }
+
+    console.log(newLog)
 
     return {
       success: true,

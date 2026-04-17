@@ -94,6 +94,7 @@ const confirmDelete = async () => {
 
   try {
     await $fetch(`/api/logs/${logId}`, { method: 'DELETE' });
+    alert('삭제되었습니다.');
     navigateTo('/');
   } catch (e) {
     alert('삭제 실패');
