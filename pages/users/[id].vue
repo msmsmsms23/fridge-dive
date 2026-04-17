@@ -83,13 +83,25 @@
 
     <div class="flex gap-8 border-b border-gray-100 mb-8">
       <button
-        v-for="tab in ['recipes', 'logs']"
+        v-for="tab in ['recipes', 'logs', 'bookmarks']"
         :key="tab"
         :class="activeTab === tab ? 'border-primary-500 text-primary-600' : 'border-transparent text-gray-400'"
-        class="pb-4 px-2 border-b-2 font-bold transition-all text-lg"
+        class="pb-4 px-2 border-b-2 font-bold transition-all text-lg flex items-center gap-2"
         @click="activeTab = tab"
       >
-        {{ tab === 'recipes' ? '공개 레시피' : '요리 피드' }}
+        <span>
+          {{ tab === 'recipes' ? '레시피' : (tab === 'logs' ? '요리 피드' : '저장 레시피') }}
+        </span>
+
+        <span
+          class="text-xs px-2 py-0.5 rounded-full transition-all"
+          :class="activeTab === tab ? 'bg-primary-100 text-primary-600' : 'bg-gray-100 text-gray-400'"
+        >
+          {{
+            tab === 'recipes' ? (userData?.recipes?.length || 0) :
+              (tab === 'logs' ? (userData?.cookingLogs?.length || 0) : (userData?.bookmarks?.length || 0))
+          }}
+        </span>
       </button>
     </div>
 
@@ -107,21 +119,11 @@
           </p>
         </UCard>
       </div>
-      <div v-else class="text-center py-20 text-gray-400 italic">공개된 레시피가 없어요.</div>
+      <div v-else class="text-center font-medium text-gray-400">공개된 레시피가 없어요.</div>
     </div>
 
-    <div v-else>
+    <div v-else-if="activeTab === 'logs'">
       <div v-if="userData?.cookingLogs?.length" class="space-y-10">
-        <div class="space-y-2 border-b border-gray-100 pb-6">
-          <h3 class="text-2xl font-black text-gray-900 flex items-center gap-2">
-            요리 갤러리
-            <span class="text-primary-500 text-sm bg-primary-50 px-2 py-0.5 rounded-full">
-              {{ userData.cookingLogs.length }}
-            </span>
-          </h3>
-          <p class="text-sm text-gray-400">직접 만든 요리의 소중한 순간들</p>
-        </div>
-
         <div class="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
           <div
             v-for="log in sortedLogs"
@@ -166,8 +168,25 @@
       </div>
 
       <div v-else class="py-20 text-center bg-gray-50/50 rounded-[2.5rem] border-2 border-dashed border-gray-100">
-        <p class="text-gray-400 font-medium">아직 요리 기록이 없어요.</p>
+        <p class="text-center font-medium text-gray-400">아직 요리 기록이 없어요.</p>
       </div>
+    </div>
+
+    <div v-else>
+      <div v-if="userData?.bookmarks?.length" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <UCard
+          v-for="bookmark in userData.bookmarks"
+          :key="bookmark.recipeId"
+          class="hover:shadow-md transition-all cursor-pointer rounded-2xl border-none ring-1 ring-gray-100"
+          @click="navigateTo(`/recipes/${bookmark.recipeId}`)"
+        >
+          <h3 class="font-bold text-lg mb-2 text-gray-800">{{ bookmark.recipe?.title }}</h3>
+          <p class="text-sm text-gray-500 line-clamp-2 leading-relaxed">
+            {{ bookmark.recipe.description || '설명이 없는 레시피입니다.' }}
+          </p>
+        </UCard>
+      </div>
+      <div v-else class="text-center font-medium text-gray-400">저장된 레시피가 없어요.</div>
     </div>
   </UContainer>
 </template>

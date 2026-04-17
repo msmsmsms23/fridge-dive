@@ -37,6 +37,11 @@ export default defineEventHandler(async (event) => {
           with: {
             recipe: true
           }
+        },
+        bookmarks: {
+          with: {
+            recipe: true
+          }
         }
       }
     });

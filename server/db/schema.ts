@@ -6,3 +6,4 @@ export * from './recipeSteps';
 export * from './userFridge';
 export * from './follows';
 export * from './reactions';
+export * from './bookmarks';

@@ -1,7 +1,7 @@
 <template>
   <div class="max-w-3xl mx-auto space-y-8 pt-10 px-4">
     <div class="flex flex-col border-b pb-8 gap-6">
-      <div class="flex flex-col sm:flex-row justify-between sm:items-end gap-6">
+      <div class="flex flex-col sm:flex-row justify-between sm:items-stretch gap-6">
         <div class="space-y-4 flex-1">
           <h1 class="text-4xl sm:text-5xl font-black text-gray-900 leading-tight">
             {{ recipe.title }}
@@ -15,9 +15,9 @@
                 class="ring-2 ring-gray-50 group-hover:ring-primary-200 transition-all"
               />
               <div class="flex flex-col">
-              <span class="text-sm font-bold text-gray-900 group-hover:text-primary-600 transition-colors">
-                {{ recipe.user.nickname }}
-              </span>
+                <span class="text-sm font-bold text-gray-900 group-hover:text-primary-600 transition-colors">
+                  {{ recipe.user.nickname }}
+                </span>
               </div>
             </NuxtLink>
 
@@ -29,25 +29,35 @@
           </p>
         </div>
 
-        <div class="flex gap-2 w-full sm:w-auto">
+        <div class="flex flex-col justify-between items-end w-full sm:w-auto pb-1">
           <UButton
-            color="gray"
-            variant="soft"
-            icon="i-heroicons-pencil"
-            class="flex-1 sm:flex-none justify-center"
-            @click="$emit('edit')"
-          >
-            수정
-          </UButton>
-          <UButton
-            color="primary"
-            size="lg"
-            icon="i-heroicons-fire"
-            class="flex-[2] sm:flex-none justify-center"
-            @click="$emit('start')"
-          >
-            요리 시작
-          </UButton>
+            :icon="isSaved ? 'i-heroicons-bookmark-solid' : 'i-heroicons-bookmark'"
+            :color="isSaved ? 'primary' : 'gray'"
+            variant="ghost"
+            class="rounded-full transition-all duration-200 active:scale-90"
+            :loading="loading"
+            @click.stop="toggleSave"
+          />
+
+          <div class="flex items-center gap-3">
+            <UButton
+              color="gray"
+              variant="ghost"
+              icon="i-heroicons-pencil"
+              class="flex-1 sm:flex-none justify-center"
+              label="수정"
+              @click="$emit('edit')"
+            />
+
+            <UButton
+              color="primary"
+              size="lg"
+              icon="i-heroicons-fire"
+              class="flex-[2] sm:flex-none justify-center rounded-xl font-bold px-6"
+              label="요리 시작"
+              @click="$emit('start')"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -88,7 +98,41 @@
 
 <script setup>
 const props = defineProps({
-  recipe: Object
+  recipe: Object,
+  targetRecipeId: {
+    type: Number,
+    required: true
+  }
 })
-const emit = defineEmits(['edit', 'start'])
+const emit = defineEmits(['edit', 'start', 'refresh', 'saved'])
+
+const isSaved = ref(false);
+const loading = ref(false);
+
+const { data: saveStatus } = await useFetch(`/api/recipes/${props.targetRecipeId}/save`, {
+  query: { recipeId: props.targetRecipeId },
+  watch: [() => props.targetRecipeId]
+});
+
+watchEffect(() => {
+  if (saveStatus.value) {
+    isSaved.value = saveStatus.value.saved;
+  }
+});
+
+const toggleSave = async () => {
+  if (loading.value) return;
+  loading.value = true;
+  try {
+    const res = await $fetch(`/api/recipes/${props.targetRecipeId}/save`, {
+      method: 'POST',
+      body: { recipeId: props.targetRecipeId }
+    });
+    isSaved.value = res.saved;
+  } catch (e) {
+    console.error('Follow Error:', e);
+  } finally {
+    loading.value = false;
+  }
+};
 </script>

@@ -7,7 +7,7 @@
           color="white"
           trailing-icon="i-heroicons-chevron-down-20-solid"
         >
-          <UIcon name="i-heroicons-user" class="w-6 h-6 text-gray-500" />
+          <UIcon name="i-heroicons-at-symbol" class="w-4 h-4 text-gray-500" />
           {{ userStore.user?.nickname }}
         </UButton>
       </UDropdown>
@@ -56,7 +56,7 @@ const items = computed(() => [
   [
     {
       label: '설정',
-      icon: 'i-heroicons-pencil-square-20-solid',
+      icon: 'i-heroicons-wrench-screwdriver',
       to: "/users/setting"
     },
     {

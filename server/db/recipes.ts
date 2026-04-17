@@ -5,6 +5,7 @@ import { recipeIngredients } from './recipeIngredients';
 import { recipeSteps } from './recipeSteps';
 import { cookingLogs } from './cookingLogs';
 import { reactions } from './reactions';
+import { bookmarks } from "./bookmarks";
 
 export const recipes = pgTable('recipes', {
   id: serial('id').primaryKey(),
@@ -25,4 +26,5 @@ export const recipesRelations = relations(recipes, ({ one, many }) => ({
   steps: many(recipeSteps),
   cookingLogs: many(cookingLogs),
   reactions: many(reactions),
+  bookmarks: many(bookmarks),
 }));

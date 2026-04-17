@@ -6,6 +6,7 @@
       <RecipeDetail
         v-if="!isCookingMode"
         :recipe="recipe"
+        :target-recipe-id="Number(recipeId)"
         @edit="navigateTo(`/recipes/${recipeId}/edit`)"
         @start="startCooking"
         @refresh="refresh"
@@ -45,7 +46,7 @@ import CookingMode from "~/components/CookingMode.vue";
 const route = useRoute()
 const recipeId = route.params.id
 
-const { data: recipeResponse, pending, refresh } = await useFetch(`/api/recipes/${recipeId}`)
+const { data: recipeResponse, pending, refresh, saved } = await useFetch(`/api/recipes/${recipeId}`)
 const recipe = computed(() => recipeResponse.value?.data)
 
 const {

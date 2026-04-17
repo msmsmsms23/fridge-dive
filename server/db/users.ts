@@ -3,6 +3,7 @@ import { relations } from 'drizzle-orm';
 import { recipes } from './recipes';
 import { cookingLogs } from './cookingLogs';
 import { follows } from './follows';
+import { bookmarks } from './bookmarks';
 
 export const users = pgTable('users', {
   id: serial('id').primaryKey(),
@@ -20,4 +21,5 @@ export const usersRelations = relations(users, ({ many }) => ({
   followers: many(follows, { relationName: 'following_user' }),
   // 내가 팔로우를 '하는' 경우 (나의 팔로잉들)
   following: many(follows, { relationName: 'follower_user' }),
+  bookmarks: many(bookmarks),
 }));
