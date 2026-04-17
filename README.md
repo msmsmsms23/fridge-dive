@@ -26,29 +26,53 @@
 
 [실제 서비스 보러 가기 (Demo)](https://fridge-dive-dt1l9raw0-msmsmsms23s-projects.vercel.app/recipes/1)
 
-1. 내 레시피 모음
-![메인화면](https://github.com/user-attachments/assets/38dab17c-d700-45b6-8ecc-396664e098ab)
+1. 레시피 모음
 
-2. 요리 기록 타임라인
-![메인화면2](https://github.com/user-attachments/assets/117d697b-8c97-4041-8372-1be10444bf10)
+1-1. 내 레시피
+![메인화면1](https://github.com/user-attachments/assets/c19693f2-e0fe-444d-8b64-6cbdd8cddd50)
 
-3. AI 분석 (텍스트/이미지)
-![AI요약화면](https://github.com/user-attachments/assets/bbf5aae6-5d0e-4f7b-9ffe-7e48a184b26a)
+1-2. 팔로잉 레시피
+![메인화면2](https://github.com/user-attachments/assets/8b0dc855-0b6e-45c7-9fda-b070d431cfa8)
 
-4. 데이터 검토 및 수정
-![확인화면](https://github.com/user-attachments/assets/9bec6c38-938a-4017-a6af-cc6fc08695a4)
+1-3. 전체 레시피 (전체 공개 레시피 한정)
+![메인화면3](https://github.com/user-attachments/assets/27ff3863-bd41-4466-8fe0-0ae89d373e56)
 
-5. 레시피 상세 정보
-![레시피화면](https://github.com/user-attachments/assets/8f58be00-681e-4479-b242-079b72a4f38c)
+2. 요리 기록 타임라인 (내부 탭은 1번과 동일)
+![메인화면4](https://github.com/user-attachments/assets/78ea65ab-16d4-474f-afce-692654e0ee09)
+
+3. 친구(맞팔로우) 목록
+![메인화면5](https://github.com/user-attachments/assets/859a94c7-b0ee-42e1-88f7-e30a38fc6870)
+
+4. AI 분석
+
+4-1. 텍스트 분석
+![AI요약화면1](https://github.com/user-attachments/assets/426b1454-b056-427f-8579-4132453f0137)
+
+4-2. 이미지 분석
+![AI요약화면2](https://github.com/user-attachments/assets/e14f3997-5055-45e5-b4d2-7624d16c301b)
+
+4-3. 데이터 검토 및 수정
+![확인화면](https://github.com/user-attachments/assets/b8824e80-96b1-4410-85cb-bb22c4c25c6b)
+
+5. 레시피 상세 정보 - 북마크 기능
+![레시피화면](https://github.com/user-attachments/assets/2db3dcb0-ef4e-4f88-ad59-76890e6205ec)
 
 6. 인터랙티브 쿠킹 & 타이머
 ![쿠킹화면](https://github.com/user-attachments/assets/442c1c33-4b27-4837-a56b-19b714d20246)
 
-7. 요리 기록 저장 - 사진 및 메모 업로드
-![요리기록저장화면](https://github.com/user-attachments/assets/ab2708f1-d294-4546-9c09-41cf2c59369e)
+7. 요리 기록 저장
+![기록저장화면](https://github.com/user-attachments/assets/c941d633-168a-4390-9e0d-3c4811e3968b)
 
-8. 개별 기록 상세
-![기록화면](https://github.com/user-attachments/assets/83677eea-84f0-47a0-ae9f-e9e276631781)
+8. 개별 기록 상세 - 반응 남기기
+![기록상세화면](https://github.com/user-attachments/assets/7e6860e9-33d2-4e73-9076-8727f3b0f782)
+
+9. 유저 프로필
+
+9-1. 프로필
+![프로필화면](https://github.com/user-attachments/assets/89d67b5e-308a-4a5f-afdc-749c1287e731)
+
+9-2. 북마크 레시피
+![프로필화면](https://github.com/user-attachments/assets/837dfd17-a298-4f84-9db4-633e0875a42b)
 
 ---
 
