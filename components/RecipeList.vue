@@ -1,20 +1,42 @@
 <template>
   <div class="">
-    <div class="flex gap-2 mb-6">
-      <UButton
-        v-for="filter in recipeFilters"
-        :key="filter.value"
-        :color="currentFilter === filter.value ? 'primary' : 'gray'"
-        :variant="currentFilter === filter.value ? 'solid' : 'ghost'"
-        class="rounded-full px-4 font-bold"
-        @click="currentFilter = filter.value"
-      >
-        {{ filter.label }}
-      </UButton>
-    </div>
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+      <div class="flex gap-2">
+        <UButton
+          v-for="filter in recipeFilters"
+          :key="filter.value"
+          :color="currentFilter === filter.value ? 'primary' : 'gray'"
+          :variant="currentFilter === filter.value ? 'solid' : 'ghost'"
+          class="rounded-full px-4 font-bold"
+          @click="currentFilter = filter.value"
+        >
+          {{ filter.label }}
+        </UButton>
+      </div>
 
-    <div>
-      <UInput icon="i-lucide-search" size="md" variant="outline" placeholder="Search..." />
+      <div class="w-full md:w-64">
+        <UInput
+          v-model="searchQuery"
+          icon="i-heroicons-magnifying-glass"
+          size="md"
+          variant="outline"
+          placeholder="레시피 제목, 재료 검색..."
+          class="rounded-xl shadow-sm"
+          :ui="{ rounded: 'rounded-xl' }"
+          trailing
+        >
+          <template #trailing>
+            <UButton
+              v-if="searchQuery"
+              color="gray"
+              variant="link"
+              icon="i-heroicons-x-mark-20-solid"
+              :padded="false"
+              @click="searchQuery = ''"
+            />
+          </template>
+        </UInput>
+      </div>
     </div>
 
     <template v-if="currentFilter !== 'all' && !userStore.user">
@@ -49,7 +71,7 @@
                   </UBadge>
                 </div>
                 <div v-else class="text-[10px] text-primary-600 font-bold mb-1">
-                  @{{ recipe.user?.nickname || '익명 요리사' }}
+                  @{{ recipe.user?.nickname || '요리사 누군가' }}
                 </div>
                 <h3 class="font-bold text-lg truncate flex-1 text-gray-800">{{ recipe.title }}</h3>
               </div>
@@ -91,24 +113,26 @@
 </template>
 
 <script setup>
-const userStore = useUserStore();
-const currentFilter = ref(userStore.user ? 'mine' : 'all');
+  const userStore = useUserStore();
+  const currentFilter = ref(userStore.user ? 'mine' : 'all');
+  const searchQuery = ref('');
 
-const recipeFilters = [
-  { label: '내 레시피', value: 'mine' },
-  { label: '팔로잉', value: 'following' },
-  { label: '전체 탐색', value: 'all' },
-];
+  const apiPath = computed(() =>
+  searchQuery.value.trim() ? '/api/recipes/search' : '/api/recipes'
+  );
 
-const { data: recipeResponse } = await useFetch('/api/recipes', {
-  query: { type: currentFilter },
-  watch: [currentFilter]
+  const { data: recipeResponse, refresh } = await useFetch(apiPath, {
+  query: {
+  type: currentFilter,
+  keyword: searchQuery
+},
+  watch: [apiPath, currentFilter, searchQuery]
 });
 
-const recipesList = computed(() => recipeResponse.value?.data || []);
-const hasRecipes = computed(() => recipesList.value.length > 0);
+  const recipesList = computed(() => recipeResponse.value?.data || []);
+  const hasRecipes = computed(() => recipesList.value.length > 0);
 
-const formatDate = (dateStr) => {
+  const formatDate = (dateStr) => {
   return new Date(dateStr).toLocaleDateString();
 };
 </script>

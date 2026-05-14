@@ -4,7 +4,6 @@ import bcrypt from 'bcrypt'
 import { eq, or } from "drizzle-orm";
 import crypto from "crypto"
 import redis from "~/server/utils/redis"
-import { sql } from "drizzle-orm";
 
 type LoginForm = {
   email: string;
