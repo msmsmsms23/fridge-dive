@@ -4,10 +4,20 @@
       친구 목록을 불러오는 중...
     </div>
 
+    <div v-else-if="!userStore.user">
+      <UCard class="text-center py-20 bg-gray-50/50 rounded-3xl border-2 border-dashed">
+        <div class="flex flex-col items-center">
+          <UIcon name="i-heroicons-lock-closed" class="w-12 h-12 text-gray-300 mb-4" />
+          <p class="text-gray-600 font-bold text-lg">로그인이 필요한 서비스입니다.</p>
+          <p class="text-gray-400 mt-1 mb-6">로그인하시면 나만의 요리 레시피를 관리하고<br/>친구들의 맛있는 비법을 구경할 수 있어요!</p>
+          <UButton to="/login" color="primary" class="rounded-full px-8">로그인하러 가기</UButton>
+        </div>
+      </UCard>
+    </div>
+
     <div v-else-if="friends.length === 0" class="text-center py-20 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
       <UIcon name="i-heroicons-user-group" class="w-12 h-12 text-gray-300 mb-2" />
       <p class="text-gray-500 font-medium">아직 서로 팔로우한 친구가 없어요.</p>
-      <UButton label="친구 찾으러 가기" variant="link" color="primary" to="/" />
     </div>
 
     <div v-else class="grid gap-3">
@@ -45,11 +55,20 @@
 </template>
 
 <script setup>
+import {useUserStore} from "~/stores/user.js";
+
+const userStore = useUserStore
+
 const friends = ref([]);
 const pending = ref(true);
 
 onMounted(async () => {
   try {
+
+    if (!userStore.user) {
+      return;
+    }
+
     const data = await $fetch('/api/follows/list');
     friends.value = data || [];
   } catch (err) {

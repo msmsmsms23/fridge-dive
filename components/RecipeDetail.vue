@@ -22,6 +22,16 @@
             </NuxtLink>
 
             <FollowButton :target-user-id="recipe.user.id" @success="$emit('refresh')" />
+
+            <div class="flex justify-end">
+              <UBadge
+                :color="recipe.isPublic === 'public' ? 'primary' : 'gray'"
+                variant="soft"
+                size="xs"
+              >
+                {{ recipe.isPublic === 'public' ? '전체 공개' : (recipe.isPublic === 'friends' ? '친구 공개' : '나만 보기')}}
+              </UBadge>
+            </div>
           </div>
 
           <p class="text-lg text-gray-500 leading-relaxed">
@@ -40,7 +50,7 @@
           />
 
           <div class="flex items-center gap-3">
-            <UButton
+            <UButton v-if="userStore.user?.id === recipe.user.id"
               color="gray"
               variant="ghost"
               icon="i-heroicons-pencil"
@@ -97,6 +107,8 @@
 </template>
 
 <script setup>
+const userStore = useUserStore();
+
 const props = defineProps({
   recipe: Object,
   targetRecipeId: {

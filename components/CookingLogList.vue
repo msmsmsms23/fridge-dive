@@ -3,7 +3,7 @@
 
     <div class="space-y-2 border-b border-gray-100 pb-6">
       <h3 class="text-2xl font-black text-gray-900 flex items-center gap-2">
-        나의 요리 갤러리
+        요리 갤러리
         <span class="text-primary-500 text-sm bg-primary-50 px-2 py-0.5 rounded-full">
           {{ logs.length }}
         </span>

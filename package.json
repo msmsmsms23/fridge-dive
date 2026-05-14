@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "nuxt build",
+    "generate": "nuxt generate",
     "dev": "nuxt dev",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
@@ -11,6 +12,9 @@
     "typecheck": "nuxt typecheck"
   },
   "dependencies": {
+    "@capacitor/cli": "^8.3.1",
+    "@capacitor/core": "^8.3.1",
+    "@capacitor/ios": "^8.3.1",
     "@google/generative-ai": "^0.24.1",
     "@iconify-json/lucide": "^1.2.101",
     "@iconify-json/simple-icons": "^1.2.77",

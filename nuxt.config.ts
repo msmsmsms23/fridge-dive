@@ -2,6 +2,8 @@
 export default defineNuxtConfig({
   modules: ['@nuxt/eslint', '@nuxt/ui', '@pinia/nuxt'],
 
+  ssr: false,
+
   devtools: {
     enabled: true
   },

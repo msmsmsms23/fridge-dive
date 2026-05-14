@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="">
     <div class="flex gap-2 mb-6">
       <UButton
         v-for="filter in recipeFilters"
@@ -11,6 +11,10 @@
       >
         {{ filter.label }}
       </UButton>
+    </div>
+
+    <div>
+      <UInput icon="i-lucide-search" size="md" variant="outline" placeholder="Search..." />
     </div>
 
     <template v-if="currentFilter !== 'all' && !userStore.user">
@@ -41,7 +45,7 @@
                     variant="soft"
                     size="xs"
                   >
-                    {{ recipe.isPublic === 'public' ? '전체 공개' : '나만 보기' }}
+                    {{ recipe.isPublic === 'public' ? '전체 공개' : (recipe.isPublic === 'friends' ? '친구 공개' : '나만 보기')}}
                   </UBadge>
                 </div>
                 <div v-else class="text-[10px] text-primary-600 font-bold mb-1">
